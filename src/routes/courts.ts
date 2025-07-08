@@ -13,7 +13,7 @@ import { BasketballCourt, CourtFilter, ApiResponse } from '../types';
 const router = Router();
 
 // GET /api/courts - Fetch all basketball courts
-router.get('/', async (req: Request, res: Response) => {
+router.get('/', async (_req: Request, res: Response) => {
   try {
     const courts = dataStore.getAllCourts();
     
@@ -23,11 +23,13 @@ router.get('/', async (req: Request, res: Response) => {
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch courts'
     });
+    return;
   }
 });
 
@@ -39,32 +41,32 @@ router.get('/filter', validateCourtFilter, async (req: Request, res: Response) =
     // Parse filter parameters
     const filter: CourtFilter = {};
     
-    if (req.query.isIndoor !== undefined) {
-      filter.isIndoor = req.query.isIndoor === 'true';
+    if (req.query['isIndoor'] !== undefined) {
+      filter.isIndoor = req.query['isIndoor'] === 'true';
     }
-    if (req.query.skillLevelMin !== undefined) {
-      filter.skillLevelMin = parseFloat(req.query.skillLevelMin as string);
+    if (req.query['skillLevelMin'] !== undefined) {
+      filter.skillLevelMin = parseFloat(req.query['skillLevelMin'] as string);
     }
-    if (req.query.skillLevelMax !== undefined) {
-      filter.skillLevelMax = parseFloat(req.query.skillLevelMax as string);
+    if (req.query['skillLevelMax'] !== undefined) {
+      filter.skillLevelMax = parseFloat(req.query['skillLevelMax'] as string);
     }
-    if (req.query.surfaceType !== undefined) {
-      filter.surfaceType = req.query.surfaceType as string;
+    if (req.query['surfaceType'] !== undefined) {
+      filter.surfaceType = req.query['surfaceType'] as string;
     }
-    if (req.query.isLighted !== undefined) {
-      filter.isLighted = req.query.isLighted === 'true';
+    if (req.query['isLighted'] !== undefined) {
+      filter.isLighted = req.query['isLighted'] === 'true';
     }
-    if (req.query.minPlayerCount !== undefined) {
-      filter.minPlayerCount = parseInt(req.query.minPlayerCount as string);
+    if (req.query['minPlayerCount'] !== undefined) {
+      filter.minPlayerCount = parseInt(req.query['minPlayerCount'] as string);
     }
-    if (req.query.latitude !== undefined) {
-      filter.latitude = parseFloat(req.query.latitude as string);
+    if (req.query['latitude'] !== undefined) {
+      filter.latitude = parseFloat(req.query['latitude'] as string);
     }
-    if (req.query.longitude !== undefined) {
-      filter.longitude = parseFloat(req.query.longitude as string);
+    if (req.query['longitude'] !== undefined) {
+      filter.longitude = parseFloat(req.query['longitude'] as string);
     }
-    if (req.query.radius !== undefined) {
-      filter.radius = parseFloat(req.query.radius as string);
+    if (req.query['radius'] !== undefined) {
+      filter.radius = parseFloat(req.query['radius'] as string);
     }
 
     // Apply filters
@@ -81,11 +83,13 @@ router.get('/filter', validateCourtFilter, async (req: Request, res: Response) =
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to filter courts'
     });
+    return;
   }
 });
 
@@ -93,6 +97,12 @@ router.get('/filter', validateCourtFilter, async (req: Request, res: Response) =
 router.get('/:id', validateIdParam, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    if (typeof id !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid court ID'
+      });
+    }
     const court = dataStore.getCourtById(id);
     
     if (!court) {
@@ -108,11 +118,13 @@ router.get('/:id', validateIdParam, async (req: Request, res: Response) => {
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch court'
     });
+    return;
   }
 });
 
@@ -145,6 +157,12 @@ router.post('/', validateCreateCourt, async (req: Request, res: Response) => {
 router.put('/:id/players', validateUpdateCourtPlayers, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    if (typeof id !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid court ID'
+      });
+    }
     const { playerCount } = req.body;
     
     const updatedCourt = dataStore.updateCourt(id, { playerCount });
@@ -163,11 +181,13 @@ router.put('/:id/players', validateUpdateCourtPlayers, async (req: Request, res:
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to update court player count'
     });
+    return;
   }
 });
 
@@ -175,6 +195,12 @@ router.put('/:id/players', validateUpdateCourtPlayers, async (req: Request, res:
 router.put('/:id/skill', validateUpdateCourtSkill, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    if (typeof id !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid court ID'
+      });
+    }
     const { skillLevel } = req.body;
     
     const updatedCourt = dataStore.updateCourt(id, { skillLevel });
@@ -193,11 +219,13 @@ router.put('/:id/skill', validateUpdateCourtSkill, async (req: Request, res: Res
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to update court skill level'
     });
+    return;
   }
 });
 

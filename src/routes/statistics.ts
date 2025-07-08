@@ -35,11 +35,13 @@ router.get('/', async (req: Request, res: Response) => {
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch statistics'
     });
+    return;
   }
 });
 
@@ -47,6 +49,12 @@ router.get('/', async (req: Request, res: Response) => {
 router.get('/:userId', validateIdParam, async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
+    if (!userId || typeof userId !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'User ID is required'
+      });
+    }
     const statistics = dataStore.getStatisticsByUserId(userId);
     
     if (!statistics) {
@@ -62,11 +70,13 @@ router.get('/:userId', validateIdParam, async (req: Request, res: Response) => {
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch statistics'
     });
+    return;
   }
 });
 
@@ -97,11 +107,13 @@ router.get('/profile', async (req: Request, res: Response) => {
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch profile'
     });
+    return;
   }
 });
 
@@ -109,6 +121,12 @@ router.get('/profile', async (req: Request, res: Response) => {
 router.get('/profile/:userId', validateIdParam, async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
+    if (!userId || typeof userId !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'User ID is required'
+      });
+    }
     const profile = dataStore.getProfileById(userId);
     
     if (!profile) {
@@ -124,11 +142,13 @@ router.get('/profile/:userId', validateIdParam, async (req: Request, res: Respon
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch profile'
     });
+    return;
   }
 });
 
@@ -161,11 +181,13 @@ router.put('/profile', validateUpdateProfile, async (req: Request, res: Response
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to update profile'
     });
+    return;
   }
 });
 
@@ -173,6 +195,12 @@ router.put('/profile', validateUpdateProfile, async (req: Request, res: Response
 router.put('/profile/:userId', validateUpdateProfile, validateIdParam, async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
+    if (!userId || typeof userId !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'User ID is required'
+      });
+    }
     const updateData: UpdateProfileRequest = req.body;
 
     const updatedProfile = dataStore.updateProfile(userId, updateData);
@@ -191,11 +219,13 @@ router.put('/profile/:userId', validateUpdateProfile, validateIdParam, async (re
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to update profile'
     });
+    return;
   }
 });
 
@@ -226,11 +256,13 @@ router.post('/profile', async (req: Request, res: Response) => {
     };
     
     res.status(201).json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to create profile'
     });
+    return;
   }
 });
 

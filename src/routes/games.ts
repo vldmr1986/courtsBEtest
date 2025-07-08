@@ -11,7 +11,7 @@ import { Game, CreateGameRequest, JoinGameRequest, LeaveGameRequest, ApiResponse
 const router = Router();
 
 // GET /api/games - Fetch all games
-router.get('/', async (req: Request, res: Response) => {
+router.get('/', async (_req: Request, res: Response) => {
   try {
     const games = dataStore.getAllGames();
     
@@ -21,16 +21,18 @@ router.get('/', async (req: Request, res: Response) => {
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch games'
     });
+    return;
   }
 });
 
 // GET /api/games/upcoming - Fetch upcoming games
-router.get('/upcoming', async (req: Request, res: Response) => {
+router.get('/upcoming', async (_req: Request, res: Response) => {
   try {
     const upcomingGames = dataStore.getUpcomingGames();
     
@@ -40,11 +42,13 @@ router.get('/upcoming', async (req: Request, res: Response) => {
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch upcoming games'
     });
+    return;
   }
 });
 
@@ -52,6 +56,12 @@ router.get('/upcoming', async (req: Request, res: Response) => {
 router.get('/:id', validateIdParam, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    if (typeof id !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid game ID'
+      });
+    }
     const game = dataStore.getGameById(id);
     
     if (!game) {
@@ -67,11 +77,13 @@ router.get('/:id', validateIdParam, async (req: Request, res: Response) => {
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch game'
     });
+    return;
   }
 });
 
@@ -105,11 +117,13 @@ router.post('/', validateCreateGame, async (req: Request, res: Response) => {
     };
     
     res.status(201).json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to create game'
     });
+    return;
   }
 });
 
@@ -117,6 +131,12 @@ router.post('/', validateCreateGame, async (req: Request, res: Response) => {
 router.post('/:id/join', validateJoinGame, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    if (typeof id !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid game ID'
+      });
+    }
     const { userId }: JoinGameRequest = req.body;
     
     const game = dataStore.getGameById(id);
@@ -164,11 +184,13 @@ router.post('/:id/join', validateJoinGame, async (req: Request, res: Response) =
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to join game'
     });
+    return;
   }
 });
 
@@ -176,6 +198,12 @@ router.post('/:id/join', validateJoinGame, async (req: Request, res: Response) =
 router.post('/:id/leave', validateLeaveGame, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    if (typeof id !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid game ID'
+      });
+    }
     const { userId }: LeaveGameRequest = req.body;
     
     const game = dataStore.getGameById(id);
@@ -215,11 +243,13 @@ router.post('/:id/leave', validateLeaveGame, async (req: Request, res: Response)
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to leave game'
     });
+    return;
   }
 });
 
@@ -227,6 +257,12 @@ router.post('/:id/leave', validateLeaveGame, async (req: Request, res: Response)
 router.put('/:id/status', validateIdParam, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    if (typeof id !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid game ID'
+      });
+    }
     const { status } = req.body;
     
     // Validate status
@@ -256,11 +292,13 @@ router.put('/:id/status', validateIdParam, async (req: Request, res: Response) =
     };
     
     res.json(response);
+    return;
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to update game status'
     });
+    return;
   }
 });
 
