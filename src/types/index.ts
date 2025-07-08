@@ -11,6 +11,7 @@ export interface BasketballCourt {
   playerCount: number;
   skillLevel: number;
   description: string;
+  totalHoops: number;
 }
 
 export interface CreateBasketballCourtRequest {

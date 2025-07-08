@@ -16,6 +16,21 @@ class DataStore {
     // Sample basketball courts
     const sampleCourts: BasketballCourt[] = [
       {
+        id: 'court-0',
+        name: 'Poinsettia Basketball Courts',
+        latitude: 34.0877,
+        longitude: -118.3495,
+        address: '7341 Willoughby Ave, Los Angeles, CA 90046',
+        isIndoor: false,
+        surfaceType: 'Asphalt',
+        isLighted: true,
+        playerCount: 12,
+        skillLevel: 7.5,
+        description: 'Multiple courts available.',
+        totalHoops: 6,
+       
+      },
+      {
         id: 'court-1',
         name: 'Venice Beach Courts',
         latitude: 33.9850,
@@ -26,7 +41,8 @@ class DataStore {
         isLighted: true,
         playerCount: 12,
         skillLevel: 7.5,
-        description: 'Famous outdoor courts with ocean views. Multiple courts available.'
+        description: 'Famous outdoor courts with ocean views. Multiple courts available.',
+        totalHoops: 2,
       },
       {
         id: 'court-2',
@@ -39,7 +55,9 @@ class DataStore {
         isLighted: true,
         playerCount: 8,
         skillLevel: 6.0,
-        description: 'Indoor court with professional flooring. Membership required.'
+        description: 'Indoor court with professional flooring. Membership required.',
+        totalHoops: 2,
+
       },
       {
         id: 'court-3',
@@ -52,7 +70,8 @@ class DataStore {
         isLighted: true,
         playerCount: 15,
         skillLevel: 8.0,
-        description: 'Popular outdoor courts with multiple hoops. Great for pickup games.'
+        description: 'Popular outdoor courts with multiple hoops. Great for pickup games.',
+        totalHoops: 2,
       },
       {
         id: 'court-4',
@@ -65,7 +84,8 @@ class DataStore {
         isLighted: true,
         playerCount: 6,
         skillLevel: 5.5,
-        description: 'Indoor court with professional equipment. YMCA membership required.'
+        description: 'Indoor court with professional equipment. YMCA membership required.',
+        totalHoops: 2,
       },
       {
         id: 'court-5',
@@ -78,7 +98,8 @@ class DataStore {
         isLighted: false,
         playerCount: 10,
         skillLevel: 6.5,
-        description: 'Scenic outdoor courts by the lake. Popular in the evenings.'
+        description: 'Scenic outdoor courts by the lake. Popular in the evenings.',
+        totalHoops: 2,
       }
     ];
 
